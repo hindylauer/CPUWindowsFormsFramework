@@ -43,13 +43,13 @@ namespace CPUWindowsFormsFramework
 
         }
 
-        public static void FormatGridForSearchResults(DataGridView grid, string tablename)
-        {
-            grid.AllowUserToAddRows = false;
-            grid.ReadOnly = true; 
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DoFormatGrid(grid, tablename);
-        }
+        //public static void FormatGridForSearchResults(DataGridView grid, string tablename)
+        //{
+        //    grid.AllowUserToAddRows = false;
+        //    grid.ReadOnly = true; 
+        //    grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        //    DoFormatGrid(grid, tablename);
+        //}
 
         public static void FormatGridForEdit(DataGridView grid, string tablename)
         {
@@ -137,6 +137,18 @@ namespace CPUWindowsFormsFramework
                 }
             }
             return exists;
+        }
+
+        public static bool IsValidNumber(TextBox textbox, string fieldname)
+        {
+            decimal value;
+
+            if(decimal.TryParse(textbox.Text, out value) == false)
+            {
+                MessageBox.Show($"Please enter a valid number for {fieldname}.", Application.ProductName);
+                return false;
+            }
+            return true;
         }
 
         public static void SetupNav(ToolStrip ts)
