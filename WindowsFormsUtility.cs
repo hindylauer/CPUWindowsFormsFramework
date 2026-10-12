@@ -43,13 +43,13 @@ namespace CPUWindowsFormsFramework
 
         }
 
-        //public static void FormatGridForSearchResults(DataGridView grid, string tablename)
-        //{
-        //    grid.AllowUserToAddRows = false;
-        //    grid.ReadOnly = true; 
-        //    grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        //    DoFormatGrid(grid, tablename);
-        //}
+        public static void FormatGridForSearchResults(DataGridView grid, string tablename)
+        {
+            grid.AllowUserToAddRows = false;
+            grid.ReadOnly = true;
+            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DoFormatGrid(grid, tablename);
+        }
 
         public static void FormatGridForEdit(DataGridView grid, string tablename)
         {
@@ -139,7 +139,7 @@ namespace CPUWindowsFormsFramework
             return exists;
         }
 
-        public static bool IsValidNumber(TextBox textbox, string fieldname)
+        public static bool IsValidNumberTextBox(TextBox textbox, string fieldname)
         {
             decimal value;
 
@@ -149,6 +149,25 @@ namespace CPUWindowsFormsFramework
                 return false;
             }
             return true;
+        }
+
+        public static void ValidateNumericGridCell(DataGridView grid, DataGridViewCellValidatingEventArgs e, string[] columnnames)
+        {
+            string columnname = grid.Columns[e.ColumnIndex].Name;
+
+            foreach(string name in columnnames)
+            {
+                if(columnname == name)
+                {
+                    decimal value;
+
+                    if(decimal.TryParse(e.FormattedValue?.ToString(), out value) == false)
+                    {
+                        MessageBox.Show($"Please enter a valid number for {grid.Columns[e.ColumnIndex].HeaderText}.", Application.ProductName);
+                        e.Cancel = true;
+                    }
+                }
+            }
         }
 
         public static void SetupNav(ToolStrip ts)
